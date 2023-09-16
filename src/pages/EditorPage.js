@@ -7,6 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 export default function EditorPage() {
 
     const [text, setText] = useState('');
+
     return(
         <div className="home">
             <Grid

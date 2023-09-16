@@ -14,6 +14,9 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 // import c
 import EditorPage from './pages/EditorPage';
+import ClassPage from './pages/ClassPage';
+import InsightPage from './pages/InsightPage';
+
 function App() {
   return (
     <div className="app">
@@ -23,6 +26,8 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<EditorPage/>} />
+              <Route path="/classes" element={<ClassPage/>} />
+              <Route path="/insights" element={<InsightPage/>} />
               {/* <Route path="/signup" element={<SignUp/>}/> */}
             </Routes>
           </main>
