@@ -55,7 +55,10 @@ export default function InsightPage() {
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
                 <Flex as="nav" alignItems="center">
-                    <Text fontSize="30px">Insights</Text>
+
+                    <Text fontSize="20px">Insights</Text>
+                    <Spacer/>
+                    <Text fontSize="30px">Class</Text>
                     <Spacer/>
                     <HStack spacing="5px">
                         <Text fontSize="20px">Streak:</Text>
@@ -76,8 +79,20 @@ export default function InsightPage() {
                     />
                 </Center>
             </GridItem>
-            <GridItem rowSpan={7} colSpan={9}>
+            <GridItem rowSpan={4} colSpan={4} bg="orange">
                 <Carousel cards={CardData} />
+            </GridItem>
+            <GridItem rowSpan={4} colSpan={4} bg="orange">
+                <Carousel cards={CardData} />
+            </GridItem>
+            <GridItem rowSpan={2} colSpan={8} marginTop={3} bg="gray.100">
+                <Center >
+                    <Text as="block" fontSize="30px">Topics</Text>  
+                </Center>
+                <Center >
+                    <Text as="block" fontSize="15px">Links</Text>  
+                </Center>
+                
             </GridItem>
             </Grid>
 

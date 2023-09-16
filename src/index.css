@@ -12,3 +12,6 @@ code {
     monospace;
 }
 
+.carousel Carousel{
+  height: 100px;
+}
