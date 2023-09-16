@@ -112,18 +112,12 @@ export const createUserClass = /* GraphQL */ `
       class {
         id
         Name
-        createdAt
-        updatedAt
       }
       user {
         id
         Email
         Name
-        createdAt
-        updatedAt
       }
-      createdAt
-      updatedAt
     }
   }
 `;

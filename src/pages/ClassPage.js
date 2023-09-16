@@ -16,13 +16,32 @@ import {
   Card,
   CardBody,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { Auth } from 'aws-amplify';
 import { classCreate } from '../utils/utils';
+import { getUser, userClassCreate } from '../utils/utils';
+import uniqueHash from 'unique-hash';
 
 function ClassPage() {
   const [classData, setClassData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');
+
+  const [email, setEmail] = useState("");
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+    .then((res) => {
+        getUser(uniqueHash(res.attributes.email)).then((res) => {
+          setUser(res.data.getUser);
+          console.log(res.data.getUser);
+        })
+        setEmail(res.attributes.email);
+        console.log(res.attributes.email);
+    })
+  },[])
 
   const toggleCollapse = (index) => {
     if (openIndex === index) {
@@ -41,9 +60,17 @@ function ClassPage() {
     const newClass = {
       Name: newClassName,
     };
-    classCreate(newClass).then
-    ((res) => {
+    console.log(user);
+    classCreate(newClass).then((res) => {
+      console.log(res);
       classData.push(res.data.createClass);
+      let newUserClass = {
+        classId: res.data.createClass.id,
+        userId: user.id,
+      }
+      userClassCreate(newUserClass).then((res) => {
+        console.log(res);
+      })
       console.log(res);
     });
     
