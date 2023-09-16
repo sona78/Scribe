@@ -30,7 +30,7 @@ function EditorPage() {
 
 
     const saveNote = async () => {
-        const file = `${email}_${Date.now()}.json`;
+        const file = `${email}/${Date.now()}.json`;
         const data = {
             content: text
         }

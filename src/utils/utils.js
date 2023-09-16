@@ -22,3 +22,11 @@ export const userUpdate = async (newUser) => {
     });
     return promise;
 };
+
+export const classCreate = async (newClass) => {
+    const promise = await API.graphql({
+      query: mutations.createClass,
+      variables: { input: newClass },
+    });
+    return promise;
+}

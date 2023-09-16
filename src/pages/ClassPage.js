@@ -16,11 +16,10 @@ import {
   Card,
   CardBody,
 } from '@chakra-ui/react';
-
-
+import { classCreate } from '../utils/utils';
 
 function ClassPage() {
-    const [classData, setClassData] = useState([]);
+  const [classData, setClassData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');
@@ -40,12 +39,14 @@ function ClassPage() {
   const handleAddClassSubmit = () => {
     // Add the new class to classData
     const newClass = {
-      id: `class-${classData.length + 1}`,
-      name: newClassName,
-      users: [],
+      Name: newClassName,
     };
-    classData.push(newClass);
-
+    classCreate(newClass).then
+    ((res) => {
+      classData.push(res.data.createClass);
+      console.log(res);
+    });
+    
     // Reset the form and hide it
     setNewClassName('');
     setShowAddClassForm(false);
