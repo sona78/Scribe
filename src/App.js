@@ -9,12 +9,10 @@ import {
   Grid,
   theme,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
 
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
-import ClassPage from './pages/ClassPage';
+// import c
 import EditorPage from './pages/EditorPage';
 function App() {
   return (
@@ -24,8 +22,8 @@ function App() {
       <BrowserRouter>
           <main>
             <Routes>
-              <Route path="/" element={<HomePage/>} />
-              <Route path="/signup" element={<SignUp/>}/>
+              <Route path="/" element={<EditorPage/>} />
+              {/* <Route path="/signup" element={<SignUp/>}/> */}
             </Routes>
           </main>
         </BrowserRouter>

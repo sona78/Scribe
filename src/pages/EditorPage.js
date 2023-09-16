@@ -1,4 +1,4 @@
-import Sidebar from "../components/Sidebar"
+// import Sidebar from "../components/Sidebar"
 import { Box, Button, Flex, Grid, GridItem, HStack, Heading, Spacer, Text } from "@chakra-ui/react"
 
 export default function EditorPage() {
