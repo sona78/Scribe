@@ -9,11 +9,20 @@ import {
   Grid,
   theme,
 } from '@chakra-ui/react';
-
+import { Amplify } from 'aws-amplify';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import awsmobile from './aws-exports';
+import EditorPage from './pages/EditorPage';
+
+Amplify.configure(awsmobile);
 
 // import c
 import EditorPage from './pages/EditorPage';
+
+Amplify.configure(awsmobile);
+
+// import c
+
 import ClassPage from './pages/ClassPage';
 import InsightPage from './pages/InsightPage';
 

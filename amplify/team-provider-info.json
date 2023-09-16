@@ -17,6 +17,9 @@
       },
       "api": {
         "Scribe": {}
+      },
+      "storage": {
+        "s3scribestorage": {}
       }
     }
   }
