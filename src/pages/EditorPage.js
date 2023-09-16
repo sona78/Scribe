@@ -1,13 +1,52 @@
 // import Sidebar from "../components/Sidebar"
-import { Box, Button, Flex, Grid, GridItem, HStack, Heading, Spacer, Text } from "@chakra-ui/react"
+import { Box, Button, useToast, Flex, Grid, GridItem, HStack, Heading, Link, Spacer, Text, Input } from "@chakra-ui/react"
 import ReactQuill from "react-quill";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import {Auth} from "aws-amplify";
+import { Storage } from "aws-amplify";
+import StartModal from "../components/StartModal";
+import {AiFillSave} from "react-icons/ai";
 import 'react-quill/dist/quill.snow.css';
+import '@aws-amplify/ui-react/styles.css';
 
-export default function EditorPage() {
+function EditorPage() {
 
-    const [text, setText] = useState('');
+    useEffect(() => {
+        Auth.currentAuthenticatedUser()
+        .then((res) => {
+            setEmail(res.attributes.email);
+            setNewUser(false);
+            console.log(res.attributes.email);
+        })
+    },[])
+
+    const [text, setText] = useState("");
+    const [editIsOpen, setEditIsOpen] = useState(true);
+    const [user, setUser] = useState({});
+    const [newUser, setNewUser] = useState(false);
+    const [email, setEmail] = useState("");
+    const toast = useToast();
+
+
+    const saveNote = async () => {
+        const file = `${email}_${Date.now()}.json`;
+        const data = {
+            content: text
+        }
+        await Storage.put(file, JSON.stringify(data));
+    }
     return(
+        <>
+        <StartModal
+            isOpen={editIsOpen}
+            setIsOpen={setEditIsOpen}
+            user={user}
+            setUser={setUser}
+            newUser={newUser}
+            setNewUser={setNewUser}
+            toast={toast}
+        />
         <div className="home">
             <Grid
                 h='calc(100vh)'
@@ -20,7 +59,7 @@ export default function EditorPage() {
                     <Heading as="h1">Scribe</Heading>
                     <Spacer/>
                     <HStack spacing="20px">
-                        <Text>email@gmail.com</Text>
+                        <Link onClick={() => setEditIsOpen(true)}>{email}</Link>
                         <Button bg="white">Logout</Button>
                     </HStack>
                 </Flex>
@@ -37,15 +76,19 @@ export default function EditorPage() {
                 </Box>
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='papayawhip' />
-            <GridItem rowSpan={9} colSpan={9}>
+            <GridItem rowSpan={9} colSpan={9} margin={5}>
+                <Box display="flex"><Input placeholder="Title" /><Button onClick={saveNote} rightIcon={<AiFillSave/>}>Save</Button></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
-                    <Box h={"71vh"}></Box>
+                    
                 </ReactQuill>
             </GridItem>
             </Grid>
 
         </div>
+        </>
         
     )
     
 }
+
+export default withAuthenticator(EditorPage);
