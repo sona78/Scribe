@@ -17,6 +17,14 @@ import EditorPage from './pages/EditorPage';
 Amplify.configure(awsmobile);
 
 // import c
+import EditorPage from './pages/EditorPage';
+
+Amplify.configure(awsmobile);
+
+// import c
+
+import ClassPage from './pages/ClassPage';
+import InsightPage from './pages/InsightPage';
 
 function App() {
   return (
@@ -27,6 +35,8 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<EditorPage/>} />
+              <Route path="/classes" element={<ClassPage/>} />
+              <Route path="/insights" element={<InsightPage/>} />
               {/* <Route path="/signup" element={<SignUp/>}/> */}
             </Routes>
           </main>
