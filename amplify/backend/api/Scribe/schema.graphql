@@ -1,0 +1,12 @@
+type Class @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  Users: [User] @manyToMany(relationName: "UserClass")
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Email: AWSEmail
+  Name: String
+  Classes: [Class] @manyToMany(relationName: "UserClass")
+}
