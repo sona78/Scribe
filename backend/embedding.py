@@ -1,15 +1,17 @@
 import os
 import getpass
 
-os.environ["PINECONE_API_KEY"] = ""
+os.environ["PINECONE_API_KEY"] = "7bd278db-766f-4978-a090-4b8b01973196"
 os.environ["PINECONE_ENV"] = "gcp-starter"
-os.environ["OPENAI_API_KEY"] = "" # NOTE Do we need a more expensive key? 
+os.environ["OPENAI_API_KEY"] = "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" # NOTE Do we need a more expensive key?
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.vectorstores import Pinecone
 from langchain.document_loaders import TextLoader
 from langchain.document_loaders import TextLoader
+from langchain.chat_models import ChatOpenAI
+from langchain.chains import RetrievalQA
 
 import pinecone
 
@@ -42,12 +44,13 @@ def createIndex(text = "./andromious.txt", index_name = "scribe"):
 
     return docsearch; 
 
-def findSimilarDocs(query, index_name = "scribe"): 
+def queryDatabase(query, index_name = "scribe"): 
     embeddings = OpenAIEmbeddings()
     # Load existing index
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
     docs = docsearch.similarity_search(query)
-    return docs
+    print(docs[0].page_content)
+    return docs[0].page_content
 
 # Add Text to Existing Index 
 def addToIndex(text, index_name = "scribe"): 
@@ -56,4 +59,28 @@ def addToIndex(text, index_name = "scribe"):
     vectorstore = Pinecone(index, embeddings.embed_query, "text")
     vectorstore.add_texts(text)
 
-addToIndex("")
+def addDocuments(text, index_name = "scribe"): 
+    loader = TextLoader(text)
+    documents = loader.load()
+    embeddings = OpenAIEmbeddings()
+    index = pinecone.Index(index_name)
+    vectorstore = Pinecone(index, embeddings.embed_query, "text")
+    vectorstore.add_documents(documents)
+
+   
+def llmQuery(query, index_name = "scribe"): 
+    # completion llm
+    llm = ChatOpenAI(
+        openai_api_key= os.getenv("OPENAI_API_KEY"),
+        model_name='gpt-3.5-turbo',
+        temperature=0.0
+    )
+
+    context = queryDatabase(query)
+
+    prompt = "Answer the following question with provided context: " + query + "Context : " + context
+
+    
+
+
+queryDatabase("What did DK Metcalf do to Akhello Witherspoon?")

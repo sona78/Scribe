@@ -10,6 +10,8 @@ import {AiFillSave} from "react-icons/ai";
 import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
+import {Link as ReactRouterLink} from 'react-router-dom';
+
 
 function EditorPage() {
 
@@ -81,13 +83,19 @@ function EditorPage() {
             </GridItem>
             <GridItem rowSpan={9} colSpan={1} bg='tomato'>
                 <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                    <Button>Notes</Button>
+                    <Button>
+                        <Link as={ReactRouterLink} to="/">Notes</Link>
+                    </Button>
                 </Box>
                 <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                    <Button>Classes</Button>
+                    <Button>
+                        <Link as={ReactRouterLink}  to="/classes">Classes</Link>
+                    </Button>
                 </Box>
                 <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                <Button>Insights</Button>
+                <   Button>
+                        <Link as={ReactRouterLink}  to="/insights">Insights</Link>
+                    </Button>
                 </Box>
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
