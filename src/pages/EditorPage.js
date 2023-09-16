@@ -37,7 +37,13 @@ export default function EditorPage() {
                 <Button>Insights</Button>
                 </Box>
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='papayawhip' />
+            <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
+                <HStack spacing="20px">
+                    <Button>Save</Button>
+                    <Button>Export</Button>
+                    <Button>Share</Button>
+                </HStack>
+            </GridItem>
             <GridItem rowSpan={9} colSpan={9}>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     <Box h={"71vh"}></Box>
