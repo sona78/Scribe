@@ -27,6 +27,7 @@ import {
   import { Storage} from 'aws-amplify';
   import { getUser } from '../utils/utils';
   import uniqueHash from 'unique-hash';
+  import Sidebar from '../components/Sidebar';
 
 function ClassPage() {
   const [classData, setClassData] = useState([]);
@@ -117,31 +118,17 @@ function ClassPage() {
           templateColumns='repeat(10, 1fr)'
           gap={4}
       >
-      <GridItem rowSpan={1} colSpan={10} bg='tomato'>
+      <GridItem rowSpan={1} colSpan={10} bg='purple.400' color="white" boxShadow={"lg"}>
           <Flex as="nav" alignItems="center">
-              <Heading as="h1">Scribe</Heading>
+              <Heading as="h1" ml="15px">Scribe</Heading>
               <Spacer/>
               <HStack spacing="20px">
                   <Button bg="white">Logout</Button>
               </HStack>
           </Flex>
       </GridItem>
-      <GridItem rowSpan={9} colSpan={1} bg='tomato'>
-          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-              <Button>
-                  <Link as={ReactRouterLink} to="/">Notes</Link>
-              </Button>
-          </Box>
-          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-              <Button>
-                  <Link as={ReactRouterLink}  to="/classes">Classes</Link>
-              </Button>
-          </Box>
-          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-          <   Button>
-                  <Link as={ReactRouterLink}  to="/insights">Insights</Link>
-              </Button>
-          </Box>
+      <GridItem rowSpan={9} colSpan={1} boxShadow={'lg'} borderRadius={"5"}>
+        <Sidebar activeRoute={"C"}/>
       </GridItem>
 
       <GridItem rowSpan={9} colSpan={9} >

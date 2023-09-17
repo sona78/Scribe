@@ -12,6 +12,9 @@ import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
 import {Link as ReactRouterLink} from 'react-router-dom';
+import Sidebar from "../components/Sidebar";
+import CustomButton from "../ui-components/CustomButton";
+import CustomInputField from "../ui-components/CustomInputField";
 
 
 
@@ -143,13 +146,13 @@ function EditorPage() {
         <div className="home">
             <Grid
                 h='calc(100vh)'
-                templateRows='repeat(11, 1fr)'
+                templateRows='repeat(10, 1fr)'
                 templateColumns='repeat(11, 1fr)'
-                gap={4}
+                gap={3}
             >
-            <GridItem rowSpan={1} colSpan={11} bg='tomato'>
+            <GridItem rowSpan={1} colSpan={11} bg='purple.400' color="white" boxShadow={"lg"}>
                 <Flex as="nav" alignItems="center">
-                    <Heading as="h1">Scribe</Heading>
+                    <Heading as="h1" ml="15px">Scribe</Heading>
                     <Spacer/>
                     <HStack spacing="20px">
                         <Link onClick={() => setEditIsOpen(true)}>{email}</Link>
@@ -157,34 +160,21 @@ function EditorPage() {
                     </HStack>
                 </Flex>
             </GridItem>
-            <GridItem rowSpan={9} colSpan={1} bg='tomato'>
-                <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                    <Button>
-                        <Link as={ReactRouterLink} to="/">Notes</Link>
-                    </Button>
-                </Box>
-                <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                    <Button>
-                        <Link as={ReactRouterLink}  to="/classes">Classes</Link>
-                    </Button>
-                </Box>
-                <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                <   Button>
-                        <Link as={ReactRouterLink}  to="/insights">Insights</Link>
-                    </Button>
-                </Box>
+            <GridItem rowSpan={9} colSpan={1} bg='white' boxShadow={'lg'} borderRadius={"5"}>
+                <Sidebar activeRoute={"N"}/> 
             </GridItem>
-            <GridItem rowSpan={9} colSpan={1} bg='tomato'>
-                <Text variant="textLarge" as="b">All Notes:</Text>
+            <GridItem rowSpan={9} colSpan={1} bg='white' boxShadow={'lg'} borderRadius={"5"} align="center">
+                <Text variant="textLarge" as="b" color="green.500">All Notes</Text>
                {activeClassNotes.map((note) => (
                      <Button margin={2} key={note.key} onClick={() => activateNote(note.key)}>{note.key.split("/")[2]}</Button>
                ))}
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
-                <HStack spacing="20px">
-                    <Button>Save</Button>
-                    <Button>Export</Button>
-                    <Button>Share</Button>
+            <GridItem rowSpan={1} colSpan={9} bg='white'>
+                
+                <HStack spacing="50px">
+                    <CustomButton rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton>
+                    <CustomButton>Export</CustomButton>
+                    <CustomButton>Share</CustomButton>
                 </HStack>
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>                    
@@ -196,8 +186,8 @@ function EditorPage() {
                          <option value={cls.class.id}>{cls.class.Name}</option>
                     ))}
                 </Select>
-                    <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
-                    <Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
+                    <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
+                </Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
                 </ReactQuill>
