@@ -50,6 +50,13 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "scribea551f9e1": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "storage": {
     "s3scribestorage": {
       "dependsOn": [],

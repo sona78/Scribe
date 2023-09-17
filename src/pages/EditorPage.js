@@ -1,11 +1,12 @@
 // import Sidebar from "../components/Sidebar"
-import { Box, Button, useToast, Flex, Grid, GridItem, HStack, Heading, Link, Spacer, Text, Input } from "@chakra-ui/react"
+import { Select, Box, Button, useToast, Flex, Grid, GridItem, HStack, Heading, Link, Spacer, Text, Input } from "@chakra-ui/react"
 import ReactQuill from "react-quill";
 import { useState, useEffect } from "react";
 import { withAuthenticator } from '@aws-amplify/ui-react';
 import {Auth} from "aws-amplify";
 import { Storage } from "aws-amplify";
 import StartModal from "../components/StartModal";
+import uniqueHash from "unique-hash";
 import {AiFillSave} from "react-icons/ai";
 import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
@@ -18,8 +19,14 @@ function EditorPage() {
     useEffect(() => {
         Auth.currentAuthenticatedUser()
         .then((res) => {
-            getUser(res.attributes.email).then((res) => {
+            getUser(uniqueHash(res.attributes.email)).then((res) => {
+                console.log(res);
               setUser(res.data.getUser);
+              if (res.data.getUser != null){
+                console.log(res.data.getUser.Classes.items)
+                setUserClasses(res.data.getUser.Classes.items)
+              }
+              
             })
             setNewUser(false);
             setEmail(res.attributes.email);
@@ -30,9 +37,11 @@ function EditorPage() {
     const [text, setText] = useState("");
     const [editIsOpen, setEditIsOpen] = useState(true);
     const [user, setUser] = useState({});
+    const [userClasses, setUserClasses] = useState([])
     const [newUser, setNewUser] = useState(false);
     const [email, setEmail] = useState("");
     const [fileName, setFileName] = useState("");
+    const [activeClass, setActiveClass] = useState("")
     const toast = useToast();
 
 
@@ -106,6 +115,12 @@ function EditorPage() {
                 </HStack>
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>
+                <Select style={{color:"#000000"}}  placeholder='Choose Class' >
+                    {userClasses.map((cls) => (
+                         <option value={cls.class.id}>{cls.class.Name}</option>
+                    ))}
+                </Select>
+                    
                 <Box display="flex"><Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/><Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     

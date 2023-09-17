@@ -7,7 +7,13 @@ export const getClass = /* GraphQL */ `
       id
       Name
       Users {
-        nextToken
+        items {
+          user {
+            Name
+            id
+            Email
+          }
+        }
       }
       createdAt
       updatedAt
@@ -38,7 +44,12 @@ export const getUser = /* GraphQL */ `
       Email
       Name
       Classes {
-        nextToken
+        items {
+          class {
+            Name
+            id
+          }
+        }
       }
       createdAt
       updatedAt
