@@ -6,6 +6,8 @@ import { withAuthenticator } from '@aws-amplify/ui-react';
 import {Auth} from "aws-amplify";
 import { Storage } from "aws-amplify";
 import StartModal from "../components/StartModal";
+import {AiFillSave} from "react-icons/ai";
+import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
 import {Link as ReactRouterLink} from 'react-router-dom';
@@ -16,8 +18,11 @@ function EditorPage() {
     useEffect(() => {
         Auth.currentAuthenticatedUser()
         .then((res) => {
-            setEmail(res.attributes.email);
+            getUser(res.attributes.email).then((res) => {
+              setUser(res.data.getUser);
+            })
             setNewUser(false);
+            setEmail(res.attributes.email);
             console.log(res.attributes.email);
         })
     },[])
@@ -27,6 +32,7 @@ function EditorPage() {
     const [user, setUser] = useState({});
     const [newUser, setNewUser] = useState(false);
     const [email, setEmail] = useState("");
+    const [fileName, setFileName] = useState("");
     const toast = useToast();
 
 
@@ -35,13 +41,23 @@ function EditorPage() {
         const data = {
             content: text
         }
-        await Storage.put(file, JSON.stringify(data));
+        await Storage.put(file, JSON.stringify(data))
+        .then((res) => {
+            console.log(res);
+            toast({
+                title: "File Saved",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+              });
+        })
     }
     return(
         <>
         <StartModal
             isOpen={editIsOpen}
             setIsOpen={setEditIsOpen}
+            email={email}
             user={user}
             setUser={setUser}
             newUser={newUser}
@@ -90,6 +106,7 @@ function EditorPage() {
                 </HStack>
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>
+                <Box display="flex"><Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/><Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
                 </ReactQuill>

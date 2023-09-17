@@ -27,6 +27,7 @@ import {
   import { FaDice } from "react-icons/fa";
   import { AiOutlineUserAdd } from "react-icons/ai";
   import {userCreate, userUpdate} from "../utils/utils"
+  import uniqueHash from "unique-hash"
   
   function StartModal(props) {
     const [isOpen, setIsOpen] = [props.isOpen, props.setIsOpen];
@@ -34,6 +35,7 @@ import {
     const [user, setUser] = [props.user, props.setUser];
     const [newUser, setNewUser] = [props.newUser, props.setNewUser];
     const toast = props.toast;
+    const email = props.email
   
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -51,7 +53,9 @@ import {
       if (firstName != "" && lastName != "") {
           if (user != null && JSON.stringify(user) !== "{}") {
             let newUser = {
-              name: name,
+              id: uniqueHash(email),
+              Email: email,
+              Name: name,
             };
             userUpdate(newUser).then((res) => {
               setUser(res.data.updateUser);
@@ -65,6 +69,8 @@ import {
             });
           } else {
             let newUser = {
+                id: uniqueHash(email),
+                Email: email,
                 Name: name,
               };
   

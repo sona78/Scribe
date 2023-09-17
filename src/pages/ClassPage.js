@@ -1,22 +1,51 @@
 // src/ClassPage.js
 
+import { useEffect } from 'react';
+import { Auth } from 'aws-amplify';
 import { classCreate } from '../utils/utils';
-import { Box, Button, useToast, Flex, Grid, GridItem, HStack, Heading, Link, Spacer, Text, Input } from "@chakra-ui/react"
-import ReactQuill from "react-quill";
-import { useState, useEffect } from "react";
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import {Auth} from "aws-amplify";
-import { Storage } from "aws-amplify";
-import StartModal from "../components/StartModal";
-import 'react-quill/dist/quill.snow.css';
-import '@aws-amplify/ui-react/styles.css';
-import {Link as ReactRouterLink} from 'react-router-dom';
-import { VStack, Card, CardBody, Collapse, FormControl } from '@chakra-ui/react';
-
-import ClassGrid from '../components/ClassGrid';
 
 function ClassPage() {
-  
+  const [classData, setClassData] = useState([]);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
+  const [newClassName, setNewClassName] = useState('');
+
+  const toggleCollapse = (index) => {
+    if (openIndex === index) {
+      setOpenIndex(null);
+    } else {
+      setOpenIndex(index);
+    }
+  };
+
+  const handleAddClassClick = () => {
+    setShowAddClassForm(true);
+  };
+
+  const handleAddClassSubmit = () => {
+    // Add the new class to classData
+    const newClass = {
+      Name: newClassName,
+    };
+    classCreate(newClass).then
+    ((res) => {
+      classData.push(res.data.createClass);
+      console.log(res);
+    });
+    
+    // Reset the form and hide it
+    setNewClassName('');
+    setShowAddClassForm(false);
+  };
+
+  const handleDeleteClass = (index) => {
+    const updatedClassData = [...classData];
+    updatedClassData.splice(index, 1);
+
+    // Update the state with the modified array
+    setClassData(updatedClassData);
+  }
+
   return (
     <div className="base">
       <Grid
