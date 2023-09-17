@@ -33,7 +33,7 @@ export default function InsightPage() {
                 templateColumns='repeat(10, 1fr)'
                 gap={4}
             >
-            <GridItem rowSpan={1} colSpan={10} bg='tomato'>
+            <GridItem rowSpan={1} colSpan={10} bg='purple.400'>
                 <Flex as="nav" alignItems="center">
                     <Heading as="h1">Scribe</Heading>
                     <Spacer/>
