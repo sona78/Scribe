@@ -1,7 +1,7 @@
 
 import { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
-import { classCreate } from '../utils/utils';
+import { classCreate, userClassCreate } from '../utils/utils';
 
 import {
     Box,
@@ -25,13 +25,35 @@ import {
   import {Link as ReactRouterLink} from 'react-router-dom';
   import ClassGrid from '../components/ClassGrid';
   import { Storage} from 'aws-amplify';
+  import { getUser } from '../utils/utils';
+  import uniqueHash from 'unique-hash';
 
 function ClassPage() {
   const [classData, setClassData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');
+  const [user, setUser] = useState({});
+  const [email, setEmail] = useState("");
+
   
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+    .then((res) => {
+        getUser(uniqueHash(res.attributes.email)).then((res) => {
+            console.log(res);
+          setUser(res.data.getUser);
+          if (res.data.getUser != null){
+            console.log(res.data.getUser.Classes.items)
+            setClassData(res.data.getUser.Classes.items)
+          }
+          
+        })
+        setEmail(res.attributes.email);
+        console.log(res.attributes.email);
+      })
+  },[])
+
 
   const toggleCollapse = (index) => {
     if (openIndex === index) {
@@ -53,8 +75,17 @@ function ClassPage() {
     classCreate(newClass).then
     ((res) => {
       classData.push(res.data.createClass);
-      console.log(res);
+      const newUserClass = {
+        classId: res.data.createClass.id,
+        userId: user.id,
+      }
+      userClassCreate(newUserClass)
+      .then((res) => {
+        console.log(res);
+      })
+      
     });
+
 
     const file = `public/${classData.Name}.json`;
     const data = {
@@ -114,7 +145,7 @@ function ClassPage() {
       </GridItem>
 
       <GridItem rowSpan={9} colSpan={9} >
-        <ClassGrid classData={classData}>
+        <ClassGrid classData={classData} user={user}>
 
         </ClassGrid>
       </GridItem>

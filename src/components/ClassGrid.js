@@ -15,8 +15,9 @@ import {
   } from '@chakra-ui/react';
   import { Link } from 'react-router-dom';
   import { useState } from 'react';
+  import { classCreate, userClassCreate } from '../utils/utils';
   
-export default function ClassGrid({classData}) {
+export default function ClassGrid({classData, user}) {
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');
@@ -36,12 +37,24 @@ export default function ClassGrid({classData}) {
   const handleAddClassSubmit = () => {
     // Add the new class to classData
     const newClass = {
-      name: newClassName,
-      users: [],
+      Name: newClassName,
     };
 
     classData.push(newClass);
     console.log(classData);
+
+    classCreate(newClass).then
+    ((res) => {
+      const newUserClass = {
+        classId: res.data.createClass.id,
+        userId: user.id,
+      }
+      userClassCreate(newUserClass)
+      .then((res) => {
+        console.log(res);
+      })
+      
+    });
 
     // Reset the form and hide it
     setNewClassName('');
@@ -61,7 +74,7 @@ export default function ClassGrid({classData}) {
     <div className='classgrid'>
         <Grid templateColumns="repeat(4, 1fr)" gap={4}>
           {classData.length !== 0 && classData.map((cls, index) => (
-            <GridItem key={cls.id} colSpan={2}>
+            <GridItem key={cls.class.id} colSpan={2}>
               <Card>
                   <CardBody>
                       <Box
@@ -73,11 +86,11 @@ export default function ClassGrid({classData}) {
                         <HStack>
                             <Text 
                                 fontSize="lg"
-                                fontWeight="bold">{cls.name}
+                                fontWeight="bold">{cls.class.Name}
                                 
                             </Text>
                             <Spacer />
-                            <Link to={`/notes/${cls.id}`}> 
+                            <Link to={`/notes/${cls.class.id}`}> 
                             {/* put proper link here */}
                             <Button size="sm">Take Notes</Button>
                             </Link>
@@ -100,7 +113,7 @@ export default function ClassGrid({classData}) {
                         
                         <Collapse in={openIndex === index}>
                             <VStack mt={2}>
-                            {cls.users.map((user, userIndex) => (
+                            {cls.class.users && cls.class.users.map((user, userIndex) => (
                                 <Text key={userIndex}>{user}</Text>
                             ))}
                             </VStack>

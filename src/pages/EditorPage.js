@@ -11,9 +11,8 @@ import {AiFillSave} from "react-icons/ai";
 import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
-import AWS from 'aws-sdk';
 import {Link as ReactRouterLink} from 'react-router-dom';
-import {Select} from "@chakra-ui/react";
+
 
 
 
@@ -29,16 +28,18 @@ function EditorPage() {
                 console.log(res.data.getUser.Classes.items)
                 setUserClasses(res.data.getUser.Classes.items)
               }
-              
             })
-            setNewUser(false);
+            .catch((err) => {
+                setNewUser(true);
+                setEditIsOpen(true);
+            });
             setEmail(res.attributes.email);
             console.log(res.attributes.email);
         })
     },[])
 
     const [text, setText] = useState("");
-    const [editIsOpen, setEditIsOpen] = useState(true);
+    const [editIsOpen, setEditIsOpen] = useState(false);
     const [user, setUser] = useState({});
     const [userClasses, setUserClasses] = useState([])
     const [newUser, setNewUser] = useState(false);
@@ -46,36 +47,20 @@ function EditorPage() {
     const [fileName, setFileName] = useState("");
     const toast = useToast();
     const [activeClass, setActiveClass] = useState("");
-    AWS.config.update({
-        accessKeyId:'AKIA5TCPBQISTDIUASNC',
-        secretAccessKey:'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',
-        s3Url:'https://scribe-storage165716-staging.s3.amazonaws.com',
-    });
-    const s3 = new AWS.S3();
-    const params = {
-        Bucket: 'scribe-storage165716-staging',
-        Delimiter: '/',
-        Prefix: 'public/${user.Email}/',
-    };
-    
+    const [fileDisplay, setFileDisplay] = useState([]);
+  
 
     const [classes, setClasses] = useState([]);
-    const response = s3.listObjectsV2(Bucket = bucketName, Prefix = prefix);
 
     useEffect(() => {
-        s3.listObjectsV2(params, (err,data) => {
-            if(err) console.log(err, err.stack);
-            else{
-                console.log(data);
-                setClasses(data);
-            }
-        })
-    }, [])
-
-
+        Storage.list(`public/${user.Email}/${activeClass}`) // for listing ALL files without prefix, pass '' instead
+        .then(({ results }) => setFileDisplay(results))
+        .catch((err) => console.log(err));
+    },[activeClass])
+    
 
     const saveNote = async () => {
-        const file = prefix + fileName + ".json";
+        const file = fileName + ".json";
         const data = {
             content: text
         }
@@ -143,21 +128,15 @@ function EditorPage() {
                     <Button>Share</Button>
                 </HStack>
             </GridItem>
-            <GridItem rowSpan={9} colSpan={9}>
-                <Select style={{color:"#000000"}}  placeholder='Choose Class' >
+            <GridItem rowSpan={9} colSpan={9}>                    
+                <Box display="flex">
+                <Select style={{color:"#000000"}} value={activeClass} onChange={(e) => {
+                    setActiveClass(e.target.value)
+                    }} placeholder='Choose Class' >
                     {userClasses.map((cls) => (
                          <option value={cls.class.id}>{cls.class.Name}</option>
                     ))}
                 </Select>
-                    
-                <Box display="flex">
-                    <Select placeholder="Select Class" onChange={(e) => {setActiveClass(e.target.value)}}>
-                        {classes.map((item) => {
-                            return(
-                                <option value={item}>{item.Name}</option>
-                            )
-                        })}
-                    </Select>
                     <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
                     <Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
