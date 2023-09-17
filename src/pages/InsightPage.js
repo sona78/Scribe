@@ -78,7 +78,7 @@ export default function InsightPage() {
                     <Heading as="h1" ml="15px">Scribe</Heading>
                     <Spacer/>
                     <HStack spacing="20px">
-                        <Text>email@gmail.com</Text>
+                        <Text></Text>
                         <Button bg="white">Logout</Button>
                     </HStack>
                 </Flex>
@@ -114,7 +114,7 @@ export default function InsightPage() {
                         variant = 'outline' 
                         placeholder='Get Insights About this Class' 
                         value={text}
-                        onChange={setText}
+                        onChange={(e) => setText(e.target.value)}
                         size='md'
                         width='60%'
                         boxShadow={'lg'}
