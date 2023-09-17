@@ -1,28 +1,25 @@
 {
-  "staging": {
+  "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-scribe-staging-165716-authRole",
-      "UnauthRoleArn": "arn:aws:iam::934321160741:role/amplify-scribe-staging-165716-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::934321160741:role/amplify-scribe-staging-165716-authRole",
+      "AuthRoleName": "amplify-scribe-dev-221711-authRole",
+      "UnauthRoleArn": "arn:aws:iam::934321160741:role/amplify-scribe-dev-221711-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::934321160741:role/amplify-scribe-dev-221711-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-scribe-staging-165716-deployment",
-      "UnauthRoleName": "amplify-scribe-staging-165716-unauthRole",
-      "StackName": "amplify-scribe-staging-165716",
-      "StackId": "arn:aws:cloudformation:us-east-1:934321160741:stack/amplify-scribe-staging-165716/17a9f430-54b2-11ee-9c30-0aa2892785c9",
-      "AmplifyAppId": "d21lcl5vesa9nt"
+      "DeploymentBucketName": "amplify-scribe-dev-221711-deployment",
+      "UnauthRoleName": "amplify-scribe-dev-221711-unauthRole",
+      "StackName": "amplify-scribe-dev-221711",
+      "StackId": "arn:aws:cloudformation:us-east-1:934321160741:stack/amplify-scribe-dev-221711/504ae2b0-5500-11ee-98ce-12cead74dd79",
+      "AmplifyAppId": "d2kvob35ck1bh7"
     },
     "categories": {
-      "auth": {
-        "scribedeab29b6": {}
-      },
       "api": {
-        "Scribe": {}
+        "scribe": {}
+      },
+      "auth": {
+        "scribe5629a92c": {}
       },
       "storage": {
-        "s3scribestorage": {}
-      },
-      "function": {
-        "scribea551f9e1": {}
+        "scribestore": {}
       }
     }
   }
