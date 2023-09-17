@@ -1,9 +1,9 @@
 import os
 import getpass
 
-os.environ["PINECONE_API_KEY"] = "7bd278db-766f-4978-a090-4b8b01973196"
+os.environ["PINECONE_API_KEY"] = ""
 os.environ["PINECONE_ENV"] = "gcp-starter"
-os.environ["OPENAI_API_KEY"] = "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" # NOTE Do we need a more expensive key?
+os.environ["OPENAI_API_KEY"] = "" # NOTE Do we need a more expensive key?
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
@@ -13,6 +13,7 @@ from langchain.document_loaders import TextLoader
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import RetrievalQA
 
+import openai
 import pinecone
 
 # initialize pinecone
@@ -78,9 +79,19 @@ def llmQuery(query, index_name = "scribe"):
 
     context = queryDatabase(query)
 
-    prompt = "Answer the following question with provided context: " + query + "Context : " + context
+    prompt = "Answer the following question with provided context: " + query + "\nContext : " + context
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": prompt}
+        ]
+    )
+
+    print(response['choices'][0]['message']['content'])
 
     
 
-
-queryDatabase("What did DK Metcalf do to Akhello Witherspoon?")
+addDocuments("./andromious3.txt")
+llmQuery("What color hair do Portuguese women have?")
