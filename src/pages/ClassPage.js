@@ -1,140 +1,71 @@
 // src/ClassPage.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Box,
-  Text,
-  Button,
-  Collapse,
-  VStack,
-  HStack,
-  Spacer,
-  Grid,
-  GridItem,
-  FormControl,
-  Input,
-  Card,
-  CardBody,
-} from '@chakra-ui/react';
+
 import { classCreate } from '../utils/utils';
+import { Box, Button, useToast, Flex, Grid, GridItem, HStack, Heading, Link, Spacer, Text, Input } from "@chakra-ui/react"
+import ReactQuill from "react-quill";
+import { useState, useEffect } from "react";
+import { withAuthenticator } from '@aws-amplify/ui-react';
+import {Auth} from "aws-amplify";
+import { Storage } from "aws-amplify";
+import StartModal from "../components/StartModal";
+import 'react-quill/dist/quill.snow.css';
+import '@aws-amplify/ui-react/styles.css';
+import {Link as ReactRouterLink} from 'react-router-dom';
+import { VStack, Card, CardBody, Collapse, FormControl } from '@chakra-ui/react';
+
+import ClassGrid from '../components/ClassGrid';
 
 function ClassPage() {
-  const [classData, setClassData] = useState([]);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
-  const [newClassName, setNewClassName] = useState('');
-
-  const toggleCollapse = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(null);
-    } else {
-      setOpenIndex(index);
-    }
-  };
-
-  const handleAddClassClick = () => {
-    setShowAddClassForm(true);
-  };
-
-  const handleAddClassSubmit = () => {
-    // Add the new class to classData
-    const newClass = {
-      Name: newClassName,
-    };
-    classCreate(newClass).then
-    ((res) => {
-      classData.push(res.data.createClass);
-      console.log(res);
-    });
-    
-    // Reset the form and hide it
-    setNewClassName('');
-    setShowAddClassForm(false);
-  };
-
-  const handleDeleteClass = (index) => {
-    const updatedClassData = [...classData];
-    updatedClassData.splice(index, 1);
-
-    // Update the state with the modified array
-    setClassData(updatedClassData);
-  }
-
+  
   return (
-    <VStack spacing={4}>
-      <Grid templateColumns="repeat(4, 1fr)" gap={4}>
-        {classData.map((cls, index) => (
-          <GridItem key={cls.id}>
-            <Card>
-                <CardBody>
-                    <Box
-                        p={4}
-                        borderWidth="1px"
-                        borderRadius="lg"
-                        cursor="pointer"
-                        width="400" height="200px"
-                        >
-                        <HStack>
-                            <Text 
-                                fontSize="lg"
-                                fontWeight="bold">{cls.name}
-                                
-                            </Text>
-                            <Spacer />
-                            <Link to={`/notes/${cls.id}`}> 
-                            {/* put proper link here */}
-                            <Button size="sm">Take Notes</Button>
-                            </Link>
+    <div className="base">
+      <Grid
+          h='calc(100vh)'
+          templateRows='repeat(10, 1fr)'
+          templateColumns='repeat(10, 1fr)'
+          gap={4}
+      >
+      <GridItem rowSpan={1} colSpan={10} bg='tomato'>
+          <Flex as="nav" alignItems="center">
+              <Heading as="h1">Scribe</Heading>
+              <Spacer/>
+              <HStack spacing="20px">
+                  <Button bg="white">Logout</Button>
+              </HStack>
+          </Flex>
+      </GridItem>
+      <GridItem rowSpan={9} colSpan={1} bg='tomato'>
+          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
+              <Button>
+                  <Link as={ReactRouterLink} to="/">Notes</Link>
+              </Button>
+          </Box>
+          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
+              <Button>
+                  <Link as={ReactRouterLink}  to="/classes">Classes</Link>
+              </Button>
+          </Box>
+          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
+          <   Button>
+                  <Link as={ReactRouterLink}  to="/insights">Insights</Link>
+              </Button>
+          </Box>
+      </GridItem>
 
-                            {/* button to add users */}
-                            <Button
-                                size="sm"
-                                onClick={() => toggleCollapse(index)}
-                            >
-                            Toggle Users
-                            </Button>
-                            {/* button to delete class */}
-                            <Button
-                                size="sm"
-                                onClick={() => handleDeleteClass(index)}
-                            >
-                            Delete Class
-                            </Button>
-                        </HStack>
-                        <Collapse in={openIndex === index}>
-                            <VStack mt={2}>
-                            {cls.users.map((user, userIndex) => (
-                                <Text key={userIndex}>{user}</Text>
-                            ))}
-                            </VStack>
-                        </Collapse>
-                    </Box>
-                </CardBody>
-            </Card>
-            
-          </GridItem>
-        ))}
+      <GridItem rowSpan={9} colSpan={9} >
+        <ClassGrid >
+
+        </ClassGrid>
+      </GridItem>
       </Grid>
-      {showAddClassForm ? (
-        <FormControl>
-          <Input
-            type="text"
-            placeholder="Enter class name"
-            value={newClassName}
-            onChange={(e) => setNewClassName(e.target.value)}
-          />
-          
-          <Button mt={2} colorScheme="teal" onClick={handleAddClassSubmit}>
-            Add Class
-          </Button>
-        </FormControl>
-      ) : (
-        <Button mt={2} colorScheme="blue" onClick={handleAddClassClick}>
-          Add Class
-        </Button>
-      )}
-    </VStack>
+    </div>
+
+    
   );
 }
 
 export default ClassPage;
+
+    
+
+
