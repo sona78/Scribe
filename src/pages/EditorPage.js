@@ -164,14 +164,15 @@ function EditorPage() {
                 <Sidebar activeRoute={"N"}/> 
             </GridItem>
             <GridItem rowSpan={9} colSpan={1} bg='white' boxShadow={'lg'} borderRadius={"5"} align="center">
-                <Text variant="textLarge" as="b" color="purple.500">All Notes</Text>
+                <Text variant="textLarge" as="b" color="green.500">All Notes</Text>
                {activeClassNotes.map((note) => (
                      <Button margin={2} key={note.key} onClick={() => activateNote(note.key)}>{note.key.split("/")[2]}</Button>
                ))}
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
-                <HStack spacing="20px">
-                    <CustomButton>Save</CustomButton>
+            <GridItem rowSpan={1} colSpan={9} bg='white'>
+                
+                <HStack spacing="50px">
+                    <CustomButton rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton>
                     <CustomButton>Export</CustomButton>
                     <CustomButton>Share</CustomButton>
                 </HStack>
@@ -186,7 +187,7 @@ function EditorPage() {
                     ))}
                 </Select>
                     <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
-                    <CustomButton size = 'lg'p='20px' rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton></Box><br/>
+                </Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
                 </ReactQuill>
