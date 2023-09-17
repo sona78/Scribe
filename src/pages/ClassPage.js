@@ -138,7 +138,7 @@ function ClassPage() {
       </GridItem>
       <GridItem rowSpan={1} colSpan={9}>
           <Center as="nav" alignItems="center">
-              <Text fontSize="30px">Class</Text>
+              <Text fontWeight = 'bold' color = 'green.500' fontSize="30px">Classes</Text>
           </Center>
           
       </GridItem>

@@ -9,6 +9,7 @@ const CustomButton = ({ children, ...rest }) => (
     borderRadius='full'
     textColor='white'
     shadow={"lg"}
+    boxShadow={'lg'}
     _hover={{ bgColor: 'yellow.400' }}
     {...rest}
 

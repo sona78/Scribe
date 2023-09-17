@@ -117,7 +117,7 @@ export default function ClassGrid({user, setUser}) {
         <Grid templateColumns="repeat(4, 1fr)" gap={4}>
           {classData.length !== 0 && classData.map((cls, index) => (
             <GridItem key={cls.class.id} colSpan={2}>
-              <Card>
+              <Card boxShadow={'lg'}>
                   <CardBody>
                       <Box
                           p={4}
@@ -167,7 +167,7 @@ export default function ClassGrid({user, setUser}) {
           ))}
         </Grid>
 
-        <Button mt={2} color = "white" bg="green.500" _hover={{bgColor: "yellow.400"}} onClick={onOpen}>
+        <Button boxShadow={'lg'} mt={2} color = "white" bg="green.500" _hover={{bgColor: "yellow.400"}} onClick={onOpen}>
           Add Class
         </Button>
 

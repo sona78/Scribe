@@ -75,9 +75,9 @@ export default function InsightPage() {
             </GridItem>
             <GridItem rowSpan={1} colSpan={9}>
                 <Flex as="nav" alignItems="center">
-                    <Text fontSize="20px" ml="30px">Insights</Text>
+                    <Text fontWeight = 'bold' color = 'green.500' fontSize="20px" ml="30px">Insights</Text>
                     <Spacer/>
-                    {shouldDisplay && <Select color="gray.600" bg="gray.200" mr="10px" w="30%" value={activeClass} onChange={(e) => {
+                    {shouldDisplay && <Select boxShadow={'lg'} color="gray.600" bg="gray.200" mr="10px" w="30%" value={activeClass} onChange={(e) => {
                         setActiveClass(e.target.value)
                         setShouldDisplay(false)
                     }} placeholder='Choose Class' >
@@ -89,8 +89,8 @@ export default function InsightPage() {
                     <Text fontSize="30px">{activeClass}</Text>
                     <Spacer/>
                     <HStack spacing="5px">
-                        <Text fontSize="20px">Streak:</Text>
-                        <Text fontSize="20px" mr="50px">12</Text>
+                        <Text fontWeight = 'bold' color = 'green.500' fontSize="20px">Streak:</Text>
+                        <Text fontWeight = 'bold' color = 'green.500' fontSize="20px" mr="50px">12</Text>
                     </HStack>
                 </Flex>
                 
@@ -104,20 +104,21 @@ export default function InsightPage() {
                         onChange={(e) => {setText(e.target.value)}}
                         size='md'
                         width='60%'
+                        boxShadow={'lg'}
                     />
                 </Center>
             </GridItem>
-            <GridItem rowSpan={4} colSpan={4} bg="orange">
-                <Carousel cards={CardData} />
+            <GridItem boxShadow={'lg'} rowSpan={4} colSpan={4} bg="orange">
+                <Carousel cards={CardData}/>
             </GridItem>
-            <GridItem rowSpan={4} colSpan={4} bg="orange">
+            <GridItem boxShadow={'lg'} rowSpan={4} colSpan={4} bg="orange">
                 <Carousel cards={CardData} />
             </GridItem>
             <GridItem rowSpan={2} colSpan={8} marginTop={3} bg="gray.100">
-                <Center >
+                <Center boxShadow={'lg'} >
                     <Text as="block" fontSize="30px">Topics</Text>  
                 </Center>
-                <Center >
+                <Center boxShadow={'lg'}>
                     <Text as="block" fontSize="15px">Links</Text>  
                 </Center>
                 

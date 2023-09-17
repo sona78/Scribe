@@ -177,7 +177,7 @@ function EditorPage() {
                      <Button margin={2} key={note.key} onClick={() => activateNote(note.key)}>{note.key.split("/")[2]}</Button>
                ))}
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='white'>
+            <GridItem rowSpan={1} colSpan={9} bg='white' boxShadow={'lg'} borderRadius={"5"}>
                 <HStack p = {10} spacing="50px">
                     <CustomButton rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton>
                     <CustomButton>Export</CustomButton>
@@ -186,7 +186,7 @@ function EditorPage() {
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>                    
                 <Box display="flex">
-                <Select color="gray.600" bg="gray.300" mr="15px" value={activeClass} onChange={(e) => {
+                <Select boxShadow={'lg'} color="gray.600" bg="gray.300" mr="15px" value={activeClass} onChange={(e) => {
                     setActiveClass(e.target.value)
                     }} placeholder='Choose Class' >
                     {userClasses.map((cls) => (
