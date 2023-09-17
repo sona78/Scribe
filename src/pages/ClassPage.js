@@ -4,6 +4,27 @@ import { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import { classCreate } from '../utils/utils';
 
+import {
+    Box,
+    Text,
+    Button,
+    Collapse,
+    VStack,
+    HStack,
+    Spacer,
+    Grid,
+    GridItem,
+    FormControl,
+    Input,
+    Card,
+    CardBody,
+    Flex,
+    Heading
+  } from '@chakra-ui/react';
+  import { Link } from 'react-router-dom';
+  import { useState } from 'react';
+  import {Link as ReactRouterLink} from 'react-router-dom';
+  import ClassGrid from '../components/ClassGrid';
 function ClassPage() {
   const [classData, setClassData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
