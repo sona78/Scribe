@@ -12,6 +12,7 @@ import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
 import {Link as ReactRouterLink} from 'react-router-dom';
+import Sidebar from "../components/Sidebar";
 
 
 
@@ -94,9 +95,9 @@ function EditorPage() {
                 templateColumns='repeat(10, 1fr)'
                 gap={4}
             >
-            <GridItem rowSpan={1} colSpan={10} bg='tomato'>
-                <Flex as="nav" alignItems="center">
-                    <Heading as="h1">Scribe</Heading>
+            <GridItem rowSpan={1} colSpan={10} bg='purple.400' color="white" boxShadow={"xl"}> 
+                <Flex as="nav" alignItems="center" justify-content="center">
+                    <Heading as="h1" ml="15px">Scribe</Heading>
                     <Spacer/>
                     <HStack spacing="20px">
                         <Link onClick={() => setEditIsOpen(true)}>{email}</Link>
@@ -104,22 +105,8 @@ function EditorPage() {
                     </HStack>
                 </Flex>
             </GridItem>
-            <GridItem rowSpan={9} colSpan={1} bg='tomato'>
-                <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                    <Button>
-                        <Link as={ReactRouterLink} to="/">Notes</Link>
-                    </Button>
-                </Box>
-                <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                    <Button>
-                        <Link as={ReactRouterLink}  to="/classes">Classes</Link>
-                    </Button>
-                </Box>
-                <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-                <   Button>
-                        <Link as={ReactRouterLink}  to="/insights">Insights</Link>
-                    </Button>
-                </Box>
+            <GridItem rowSpan={9} colSpan={1} bg='white' boxShadow={'lg'} borderRadius={"5"}>
+                <Sidebar activeRoute={"N"}/>
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
                 <HStack spacing="20px">

@@ -27,6 +27,7 @@ import {
   import { Storage} from 'aws-amplify';
   import { getUser } from '../utils/utils';
   import uniqueHash from 'unique-hash';
+  import Sidebar from '../components/Sidebar';
 
 function ClassPage() {
   const [classData, setClassData] = useState([]);
@@ -126,22 +127,8 @@ function ClassPage() {
               </HStack>
           </Flex>
       </GridItem>
-      <GridItem rowSpan={9} colSpan={1} bg='tomato'>
-          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-              <Button>
-                  <Link as={ReactRouterLink} to="/">Notes</Link>
-              </Button>
-          </Box>
-          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-              <Button>
-                  <Link as={ReactRouterLink}  to="/classes">Classes</Link>
-              </Button>
-          </Box>
-          <Box borderWidth='1px' borderColor='black' p="20px" bg="orange">
-          <   Button>
-                  <Link as={ReactRouterLink}  to="/insights">Insights</Link>
-              </Button>
-          </Box>
+      <GridItem rowSpan={9} colSpan={1} boxShadow={'lg'} borderRadius={"5"}>
+        <Sidebar activeRoute={"C"}/>
       </GridItem>
 
       <GridItem rowSpan={9} colSpan={9} >
