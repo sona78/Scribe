@@ -46,9 +46,7 @@ export default function ClassGrid({user, setUser}) {
     }
   };
 
-  const handleAddClassClick = () => {
-    setShowAddClassForm(true);
-  };
+ 
 
   const handleAddClassSubmit = () => {
     // Add the new class to classData
@@ -88,7 +86,6 @@ export default function ClassGrid({user, setUser}) {
   
   const handleBoth = (e) => {
     handleAddClassSubmit();
-    handleAddClassClick();
     onClose();
     e.preventDefault();
   }
@@ -110,9 +107,10 @@ export default function ClassGrid({user, setUser}) {
       })
   },[])
 
+  // 
   useEffect(() => {
-    console.log("CHANGEd")
-  }, [classData])
+    
+  },[classData])
   
   return (
     <div className='classgrid'>
@@ -169,6 +167,10 @@ export default function ClassGrid({user, setUser}) {
           ))}
         </Grid>
 
+        <Button mt={2} colorScheme="teal" onClick={onOpen}>
+          Add Class
+        </Button>
+
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
             <ModalContent>
@@ -182,11 +184,10 @@ export default function ClassGrid({user, setUser}) {
               </Form>
             </ModalContent>
         </Modal>
+        
 
         
-        <Button mt={2} color='white' bg="green.500" _hover={{bgColor: 'yellow.400'}} onClick={onOpen}>
-          Add Class
-        </Button>
+       
 
 
     </div>
