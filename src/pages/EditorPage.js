@@ -59,6 +59,10 @@ function EditorPage() {
   
 
     const [classes, setClasses] = useState([]);
+    useEffect(()=>{
+        console.log("NAME IS: ")
+        console.log(fileName)
+    }, [fileName]);
 
     useEffect(() => {
         Storage.list('') // for listing ALL files without prefix, pass '' instead
@@ -189,7 +193,7 @@ function EditorPage() {
                          <option value={cls.class.Name}>{cls.class.Name}</option>
                     ))}
                 </Select>
-                <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
+                <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
                 </Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
