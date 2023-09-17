@@ -14,6 +14,7 @@ import '@aws-amplify/ui-react/styles.css';
 import {Link as ReactRouterLink} from 'react-router-dom';
 import Sidebar from "../components/Sidebar";
 import CustomButton from "../ui-components/CustomButton";
+import CustomInputField from "../ui-components/CustomInputField";
 
 
 
@@ -184,7 +185,7 @@ function EditorPage() {
                          <option value={cls.class.id}>{cls.class.Name}</option>
                     ))}
                 </Select>
-                    <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
+                    <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
                     <CustomButton size = 'lg'p='20px' rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
