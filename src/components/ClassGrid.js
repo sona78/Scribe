@@ -93,7 +93,6 @@ export default function ClassGrid({user, setUser}) {
     e.preventDefault();
   }
 
-
   useEffect(() => {
     Auth.currentAuthenticatedUser()
     .then((res) => {
@@ -132,7 +131,6 @@ export default function ClassGrid({user, setUser}) {
                             <Text 
                                 fontSize="lg"
                                 fontWeight="bold">{cls.class.Name}
-                                
                             </Text>
                             <Spacer />
                             <Link to={`/notes/${cls.class.id}`}> 
@@ -186,7 +184,7 @@ export default function ClassGrid({user, setUser}) {
         </Modal>
 
         
-        <Button mt={2} colorScheme="teal" onClick={onOpen}>
+        <Button mt={2} color='white' bg="green.500" _hover={{bgColor: 'yellow.400'}} onClick={onOpen}>
           Add Class
         </Button>
 

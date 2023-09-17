@@ -128,6 +128,7 @@ function ClassPage() {
               <Heading as="h1" ml="15px">Scribe</Heading>
               <Spacer/>
               <HStack spacing="20px">
+                  <Text>{email}</Text>
                   <Button bg="white">Logout</Button>
               </HStack>
           </Flex>
