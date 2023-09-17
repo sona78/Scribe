@@ -1,9 +1,9 @@
 import os
 import getpass
 
-os.environ["PINECONE_API_KEY"] = ""
+os.environ["PINECONE_API_KEY"] = "7bd278db-766f-4978-a090-4b8b01973196"
 os.environ["PINECONE_ENV"] = "gcp-starter"
-os.environ["OPENAI_API_KEY"] = "" # NOTE Do we need a more expensive key?
+os.environ["OPENAI_API_KEY"] = "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" # NOTE Do we need a more expensive key?
 
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.text_splitter import CharacterTextSplitter
