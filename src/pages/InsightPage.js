@@ -46,7 +46,7 @@ export default function InsightPage() {
             <GridItem rowSpan={9} colSpan={1} boxShadow={'lg'} borderRadius={"5"}>
                 <Sidebar activeRoute={"I"} />
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
+            <GridItem rowSpan={1} colSpan={9}>
                 <Flex as="nav" alignItems="center">
 
                     <Text fontSize="20px">Insights</Text>

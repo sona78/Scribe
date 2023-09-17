@@ -18,19 +18,23 @@ import CustomInputField from "../ui-components/CustomInputField";
 
 
 
-
 function EditorPage() {
 
     useEffect(() => {
         Auth.currentAuthenticatedUser()
         .then((res) => {
             getUser(uniqueHash(res.attributes.email)).then((res) => {
+                if (res.data.getUser == null){
+                    setNewUser(true);
+                setEditIsOpen(true);
+                }else{
                 console.log(res);
               setUser(res.data.getUser);
               if (res.data.getUser != null){
                 console.log(res.data.getUser.Classes.items)
                 setUserClasses(res.data.getUser.Classes.items)
               }
+            }
             })
             .catch((err) => {
                 setNewUser(true);
@@ -170,8 +174,7 @@ function EditorPage() {
                ))}
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='white'>
-                
-                <HStack spacing="50px">
+                <HStack p = {10} spacing="50px">
                     <CustomButton rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton>
                     <CustomButton>Export</CustomButton>
                     <CustomButton>Share</CustomButton>
@@ -179,7 +182,7 @@ function EditorPage() {
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>                    
                 <Box display="flex">
-                <Select style={{color:"#000000"}} value={activeClass} onChange={(e) => {
+                <Select color="gray.600" bg="gray.300" mr="15px" value={activeClass} onChange={(e) => {
                     setActiveClass(e.target.value)
                     }} placeholder='Choose Class' >
                     {userClasses.map((cls) => (

@@ -18,7 +18,8 @@ import {
     Card,
     CardBody,
     Flex,
-    Heading
+    Heading,
+    Center, 
   } from '@chakra-ui/react';
   import { Link } from 'react-router-dom';
   import { useState } from 'react';
@@ -37,10 +38,14 @@ function ClassPage() {
   const [user, setUser] = useState({});
   const [email, setEmail] = useState("");
 
-  
+  const handleClick = () =>{
+    console.log("FUCK ME");
+  };
+
   useEffect(() => {
     Auth.currentAuthenticatedUser()
     .then((res) => {
+      console.log(res)
         getUser(uniqueHash(res.attributes.email)).then((res) => {
             console.log(res);
           setUser(res.data.getUser);
@@ -130,9 +135,15 @@ function ClassPage() {
       <GridItem rowSpan={9} colSpan={1} boxShadow={'lg'} borderRadius={"5"}>
         <Sidebar activeRoute={"C"}/>
       </GridItem>
-
-      <GridItem rowSpan={9} colSpan={9} >
-        <ClassGrid classData={classData} user={user}>
+      <GridItem rowSpan={1} colSpan={9}>
+          <Center as="nav" alignItems="center">
+              <Text fontSize="30px">Class</Text>
+          </Center>
+          
+      </GridItem>
+      <GridItem rowSpan={9} colSpan={9}>
+        {/* <Button onClick={handleClick} w={"99%"}_hover={{ cursor:"pointer" }} h="90%" borderStyle="dotted" borderWidth={"2px"} fontSize="2xl" fontWeight="bold" color="gray.300">Add Class</Button> */}
+        <ClassGrid user={user} setUser={setUser}>
 
         </ClassGrid>
       </GridItem>

@@ -3,8 +3,9 @@ export default function CustomInputField() {
     return (
       <Input
         borderRadius="full" // Rounded corners
-        bg="gray.200" // Background color
-        size="lg" // Size of the input field (large in this case)
+        color='gray.600'
+        bg="gray.300" // Background color
+        size="md" // Size of the input field (large in this case)
         placeholder="Search..." // Placeholder text
         _focus={{
           // Styling on focus
