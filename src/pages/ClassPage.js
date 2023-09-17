@@ -24,12 +24,6 @@ import {
   import { useState } from 'react';
   import {Link as ReactRouterLink} from 'react-router-dom';
   import ClassGrid from '../components/ClassGrid';
-<<<<<<< HEAD
-
-
-function ClassPage() {
-const [classData, setClassData] = useState([]);
-=======
   import { Storage} from 'aws-amplify';
 
 function ClassPage() {
@@ -83,7 +77,6 @@ function ClassPage() {
     // Update the state with the modified array
     setClassData(updatedClassData);
   }
->>>>>>> b944792e16772861370da5b2a9d946173d06f3f0
 
   return (
     <div className="base">

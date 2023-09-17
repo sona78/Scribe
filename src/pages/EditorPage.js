@@ -44,7 +44,6 @@ function EditorPage() {
     const [newUser, setNewUser] = useState(false);
     const [email, setEmail] = useState("");
     const [fileName, setFileName] = useState("");
-    const [activeClass, setActiveClass] = useState("")
     const toast = useToast();
     const [activeClass, setActiveClass] = useState("");
     AWS.config.update({
