@@ -11,7 +11,10 @@ import {AiFillSave} from "react-icons/ai";
 import { getUser } from "../utils/utils";
 import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
+import AWS from 'aws-sdk';
 import {Link as ReactRouterLink} from 'react-router-dom';
+import {Select} from "@chakra-ui/react";
+
 
 
 function EditorPage() {
@@ -43,10 +46,37 @@ function EditorPage() {
     const [fileName, setFileName] = useState("");
     const [activeClass, setActiveClass] = useState("")
     const toast = useToast();
+    const [activeClass, setActiveClass] = useState("");
+    AWS.config.update({
+        accessKeyId:'AKIA5TCPBQISTDIUASNC',
+        secretAccessKey:'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',
+        s3Url:'https://scribe-storage165716-staging.s3.amazonaws.com',
+    });
+    const s3 = new AWS.S3();
+    const params = {
+        Bucket: 'scribe-storage165716-staging',
+        Delimiter: '/',
+        Prefix: 'public/${user.Email}/',
+    };
+    
+
+    const [classes, setClasses] = useState([]);
+    const response = s3.listObjectsV2(Bucket = bucketName, Prefix = prefix);
+
+    useEffect(() => {
+        s3.listObjectsV2(params, (err,data) => {
+            if(err) console.log(err, err.stack);
+            else{
+                console.log(data);
+                setClasses(data);
+            }
+        })
+    }, [])
+
 
 
     const saveNote = async () => {
-        const file = `${email}/${Date.now()}.json`;
+        const file = prefix + fileName + ".json";
         const data = {
             content: text
         }
@@ -121,7 +151,16 @@ function EditorPage() {
                     ))}
                 </Select>
                     
-                <Box display="flex"><Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/><Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
+                <Box display="flex">
+                    <Select placeholder="Select Class" onChange={(e) => {setActiveClass(e.target.value)}}>
+                        {classes.map((item) => {
+                            return(
+                                <option value={item}>{item.Name}</option>
+                            )
+                        })}
+                    </Select>
+                    <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
+                    <Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
                 </ReactQuill>
