@@ -47,20 +47,73 @@ function EditorPage() {
     const [fileName, setFileName] = useState("");
     const toast = useToast();
     const [activeClass, setActiveClass] = useState("");
-    const [fileDisplay, setFileDisplay] = useState([]);
+    const [activeNote, setActiveNote] = useState("");
+    const [activeClassNotes, setActiveClassNotes] = useState([]);
   
 
     const [classes, setClasses] = useState([]);
 
     useEffect(() => {
-        Storage.list(`public/${user.Email}/${activeClass}`) // for listing ALL files without prefix, pass '' instead
-        .then(({ results }) => setFileDisplay(results))
+        Storage.list('') // for listing ALL files without prefix, pass '' instead
+        .then(({ results }) => {
+        console.log(results);
+        let userNotes = [];
+        for (let i = 0; i < results.length; i++) {
+            const sections = results[i].key.split('/');
+            console.log(sections);
+            if (sections[0] === String(user.Email)) {
+                userNotes.push(results[i]);
+            }
+        }
+        console.log(userNotes);
+        let notes = [];
+        for (let i = 0; i < userNotes.length; i++) {
+            const sections = userNotes[i].key.split('/');
+            console.log(sections);
+            if (sections[1] === String(activeClass)) {
+                notes.push(userNotes[i]);
+            }
+        }
+        setActiveClassNotes(notes);
+        console.log(notes)
+        })
         .catch((err) => console.log(err));
     },[activeClass])
     
+    const activateNote = async (note) => {
+        setActiveNote(note);
+        const response = await Storage.get(note);
+
+        const jsonDataResponse = await fetch(response);
+        // const data = JSON.parse(response);
+        console.log(jsonDataResponse)
+        if (jsonDataResponse.ok) {
+            // Parse the JSON data
+            const data = await jsonDataResponse.json();
+            setText(data.content);
+        }
+    }
+
+    const fetchJsonData = async () => {
+        try {
+          // Replace 'your-json-file-key' with the actual key of your JSON file in AWS S3.
+          const jsonKey = 'your-json-file-key';
+  
+          // Fetch the JSON file from AWS S3 using Amplify Storage
+          const response = await Storage.get(jsonKey);
+        
+          
+          // Parse the JSON data
+          const data = JSON.parse(response);
+  
+          // Set the JSON data in the state variable
+        } catch (error) {
+          console.error('Error fetching JSON data:', error);
+        }
+      };
 
     const saveNote = async () => {
-        const file = fileName + ".json";
+        const file = `${user.Email}/${activeClass}/${fileName}.json`;
         const data = {
             content: text
         }
@@ -90,11 +143,11 @@ function EditorPage() {
         <div className="home">
             <Grid
                 h='calc(100vh)'
-                templateRows='repeat(10, 1fr)'
-                templateColumns='repeat(10, 1fr)'
+                templateRows='repeat(11, 1fr)'
+                templateColumns='repeat(11, 1fr)'
                 gap={4}
             >
-            <GridItem rowSpan={1} colSpan={10} bg='tomato'>
+            <GridItem rowSpan={1} colSpan={11} bg='tomato'>
                 <Flex as="nav" alignItems="center">
                     <Heading as="h1">Scribe</Heading>
                     <Spacer/>
@@ -120,6 +173,12 @@ function EditorPage() {
                         <Link as={ReactRouterLink}  to="/insights">Insights</Link>
                     </Button>
                 </Box>
+            </GridItem>
+            <GridItem rowSpan={9} colSpan={1} bg='tomato'>
+                <Text variant="textLarge" as="b">All Notes:</Text>
+               {activeClassNotes.map((note) => (
+                     <Button margin={2} key={note.key} onClick={() => activateNote(note.key)}>{note.key.split("/")[2]}</Button>
+               ))}
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
                 <HStack spacing="20px">
