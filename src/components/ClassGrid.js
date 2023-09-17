@@ -12,15 +12,31 @@ import {
     Input,
     Card,
     CardBody,
+    Modal, 
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
   } from '@chakra-ui/react';
   import { Link } from 'react-router-dom';
-  import { useState } from 'react';
+  import { useEffect, useState } from 'react';
   import { classCreate, userClassCreate } from '../utils/utils';
-  
-export default function ClassGrid({classData, user}) {
+  import { useDisclosure } from '@chakra-ui/react';
+  import CustomInputField from '../ui-components/CustomInputField';
+import { Form } from 'react-bootstrap';
+import { Auth } from 'aws-amplify';
+import { Storage} from 'aws-amplify';
+import { getUser } from '../utils/utils';
+import uniqueHash from 'unique-hash';
+
+export default function ClassGrid({user, setUser}) {
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');
+  const {isOpen, onOpen, onClose} = useDisclosure();
+  const [classData, setClassData] = useState([])
 
   const toggleCollapse = (index) => {
     if (openIndex === index) {
@@ -30,9 +46,7 @@ export default function ClassGrid({classData, user}) {
     }
   };
 
-  const handleAddClassClick = () => {
-    setShowAddClassForm(true);
-  };
+ 
 
   const handleAddClassSubmit = () => {
     // Add the new class to classData
@@ -40,11 +54,11 @@ export default function ClassGrid({classData, user}) {
       Name: newClassName,
     };
 
-    classData.push(newClass);
-    console.log(classData);
 
     classCreate(newClass).then
     ((res) => {
+      classData.push({class:res.data.createClass});
+      console.log(classData)
       const newUserClass = {
         classId: res.data.createClass.id,
         userId: user.id,
@@ -69,13 +83,41 @@ export default function ClassGrid({classData, user}) {
     // Update the state with the modified array
     //setClassData(updatedClassData);
   }
+  
+  const handleBoth = (e) => {
+    handleAddClassSubmit();
+    onClose();
+    e.preventDefault();
+  }
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser()
+    .then((res) => {
+      console.log(res)
+        getUser(uniqueHash(res.attributes.email)).then((res) => {
+            console.log(res);
+          setUser(res.data.getUser);
+          if (res.data.getUser != null){
+            console.log(res.data.getUser.Classes.items)
+            setClassData(res.data.getUser.Classes.items)
+          }
+          
+        })
+        console.log(res.attributes.email);
+      })
+  },[])
+
+  // 
+  useEffect(() => {
     
+  },[classData])
+  
   return (
     <div className='classgrid'>
         <Grid templateColumns="repeat(4, 1fr)" gap={4}>
           {classData.length !== 0 && classData.map((cls, index) => (
             <GridItem key={cls.class.id} colSpan={2}>
-              <Card>
+              <Card boxShadow={'lg'}>
                   <CardBody>
                       <Box
                           p={4}
@@ -87,7 +129,6 @@ export default function ClassGrid({classData, user}) {
                             <Text 
                                 fontSize="lg"
                                 fontWeight="bold">{cls.class.Name}
-                                
                             </Text>
                             <Spacer />
                             <Link to={`/notes/${cls.class.id}`}> 
@@ -125,24 +166,30 @@ export default function ClassGrid({classData, user}) {
             </GridItem>
           ))}
         </Grid>
-        {showAddClassForm ? (
-          <FormControl>
-            <Input
-              type="text"
-              placeholder="Enter class name"
-              value={newClassName}
-              onChange={(e) => setNewClassName(e.target.value)}
-            />
-            
-            <Button mt={2} colorScheme="teal" onClick={handleAddClassSubmit}>
-              Add Class
-            </Button>
-          </FormControl>
-        ) : (
-          <Button mt={2} colorScheme="blue" onClick={handleAddClassClick}>
-            Add Class
-          </Button>
-        )}
+
+        <Button boxShadow={'lg'} mt={2} color = "white" bg="green.500" _hover={{bgColor: "yellow.400"}} onClick={onOpen}>
+          Add Class
+        </Button>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+            <ModalContent>
+              <Form onSubmit={(e) => {handleBoth(e)}}>
+                <Input 
+                type="text"
+                placeholder="Enter class name"
+                value={newClassName}
+                onChange={(e) => setNewClassName(e.target.value)}>
+              </Input>
+              </Form>
+            </ModalContent>
+        </Modal>
+        
+
+        
+       
+
+
     </div>
   )
 }

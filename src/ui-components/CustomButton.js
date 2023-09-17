@@ -8,6 +8,8 @@ const CustomButton = ({ children, ...rest }) => (
     color="white"
     borderRadius='full'
     textColor='white'
+    shadow={"lg"}
+    boxShadow={'lg'}
     _hover={{ bgColor: 'yellow.400' }}
     {...rest}
 

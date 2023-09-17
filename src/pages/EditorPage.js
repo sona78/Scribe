@@ -18,19 +18,23 @@ import CustomInputField from "../ui-components/CustomInputField";
 
 
 
-
 function EditorPage() {
 
     useEffect(() => {
         Auth.currentAuthenticatedUser()
         .then((res) => {
             getUser(uniqueHash(res.attributes.email)).then((res) => {
+                if (res.data.getUser == null){
+                    setNewUser(true);
+                setEditIsOpen(true);
+                }else{
                 console.log(res);
               setUser(res.data.getUser);
               if (res.data.getUser != null){
                 console.log(res.data.getUser.Classes.items)
                 setUserClasses(res.data.getUser.Classes.items)
               }
+            }
             })
             .catch((err) => {
                 setNewUser(true);
@@ -55,6 +59,10 @@ function EditorPage() {
   
 
     const [classes, setClasses] = useState([]);
+    useEffect(()=>{
+        console.log("NAME IS: ")
+        console.log(fileName)
+    }, [fileName]);
 
     useEffect(() => {
         Storage.list('') // for listing ALL files without prefix, pass '' instead
@@ -156,7 +164,7 @@ function EditorPage() {
                     <Spacer/>
                     <HStack spacing="20px">
                         <Link onClick={() => setEditIsOpen(true)}>{email}</Link>
-                        <Button bg="white">Logout</Button>
+                        <Button bg="white" mr="15px">Logout</Button>
                     </HStack>
                 </Flex>
             </GridItem>
@@ -169,9 +177,8 @@ function EditorPage() {
                      <Button margin={2} key={note.key} onClick={() => activateNote(note.key)}>{note.key.split("/")[2]}</Button>
                ))}
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='white'>
-                
-                <HStack spacing="50px">
+            <GridItem rowSpan={1} colSpan={9} bg='white' boxShadow={'lg'} borderRadius={"5"}>
+                <HStack p = {10} spacing="50px">
                     <CustomButton rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton>
                     <CustomButton>Export</CustomButton>
                     <CustomButton>Share</CustomButton>
@@ -179,14 +186,14 @@ function EditorPage() {
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>                    
                 <Box display="flex">
-                <Select style={{color:"#000000"}} value={activeClass} onChange={(e) => {
+                <Select boxShadow={'lg'} color="gray.600" bg="gray.300" mr="15px" value={activeClass} onChange={(e) => {
                     setActiveClass(e.target.value)
                     }} placeholder='Choose Class' >
                     {userClasses.map((cls) => (
-                         <option value={cls.class.id}>{cls.class.Name}</option>
+                         <option value={cls.class.Name}>{cls.class.Name}</option>
                     ))}
                 </Select>
-                    <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
+                <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
                 </Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     

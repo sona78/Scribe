@@ -1,8 +1,8 @@
-import { Box,Card, CardBody, Button, Flex, Grid, GridItem, HStack, Heading, Spacer, Text, Center, Link } from "@chakra-ui/react"
+import { Box,Card, CardBody, Select, Button, Flex, Grid, GridItem, HStack, Heading, Spacer, Text, Center, Link } from "@chakra-ui/react"
 import { useState } from "react";
 import { Input } from '@chakra-ui/react'
 import Sidebar from "../components/Sidebar";
-
+import { useLocation, useNavigate } from "react-router";
 import Carousel from "../components/CardCarousel";
 
 import OpenAI from "openai"
@@ -10,8 +10,36 @@ import OpenAI from "openai"
 
 
 
+
+import { useEffect } from "react";
+
+import { Auth } from "aws-amplify";
+import { getUser } from "../utils/utils";
+import uniqueHash from "unique-hash";
+
+
 export default function InsightPage() {
-    const [text, setText] = useState("");
+    const [text, setText] = useState('');
+    const { state } = useLocation()
+    const navigate = useNavigate()
+    const [activeClass, setActiveClass] = useState(state)
+    const [userClasses, setUserClasses] = useState([])
+    const [shouldDisplay, setShouldDisplay] = useState(true)
+    const [email, setEmail] = useState('')
+
+    useEffect(() => {
+        Auth.currentAuthenticatedUser()
+        .then((res) => {
+            getUser(uniqueHash(res.attributes.email)).then((res) => {
+                
+              if (res.data.getUser != null){
+                setUserClasses(res.data.getUser.Classes.items)
+              }
+            }
+            )
+            setEmail(res.attributes.email);
+        })
+    })
     const CardData = [
         {
           text: "Cardasdf 1"
@@ -50,7 +78,7 @@ export default function InsightPage() {
                     <Heading as="h1" ml="15px">Scribe</Heading>
                     <Spacer/>
                     <HStack spacing="20px">
-                        <Text></Text>
+                        <Text>email@gmail.com</Text>
                         <Button bg="white">Logout</Button>
                     </HStack>
                 </Flex>
@@ -58,16 +86,24 @@ export default function InsightPage() {
             <GridItem rowSpan={9} colSpan={1} boxShadow={'lg'} borderRadius={"5"}>
                 <Sidebar activeRoute={"I"} />
             </GridItem>
-            <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
+            <GridItem rowSpan={1} colSpan={9}>
                 <Flex as="nav" alignItems="center">
-
-                    <Text fontSize="20px" >Insights</Text>
+                    <Text fontWeight = 'bold' color = 'green.500' fontSize="20px" ml="30px">Insights</Text>
                     <Spacer/>
-                    <Text fontSize="30px">Class</Text>
+                    {shouldDisplay && <Select boxShadow={'lg'} color="gray.600" bg="gray.200" mr="10px" w="30%" value={activeClass} onChange={(e) => {
+                        setActiveClass(e.target.value)
+                        setShouldDisplay(false)
+                    }} placeholder='Choose Class' >
+                    {userClasses.map((cls) => (
+                         <option value={cls.class.Name}>{cls.class.Name}</option>
+                    ))}
+                    </Select>}
+                    
+                    <Text fontSize="30px">{activeClass}</Text>
                     <Spacer/>
                     <HStack spacing="5px">
-                        <Text fontSize="20px">Streak:</Text>
-                        <Text fontSize="20px">12</Text>
+                        <Text fontWeight = 'bold' color = 'green.500' fontSize="20px">Streak:</Text>
+                        <Text fontWeight = 'bold' color = 'green.500' fontSize="20px" mr="50px">12</Text>
                     </HStack>
                 </Flex>
                 
@@ -76,11 +112,12 @@ export default function InsightPage() {
                 <Center>
                     <Input 
                         variant = 'outline' 
-                        placeholder='Search' 
+                        placeholder='Get Insights About this Class' 
                         value={text}
-                        onChange={(e) => setText(e.target.value)}
+                        onChange={setText}
                         size='md'
                         width='60%'
+                        boxShadow={'lg'}
                     />
                     <Button onClick={() => {
                         handleSearch(text)
