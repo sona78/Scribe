@@ -118,9 +118,9 @@ function ClassPage() {
           templateColumns='repeat(10, 1fr)'
           gap={4}
       >
-      <GridItem rowSpan={1} colSpan={10} bg='purple.400'>
+      <GridItem rowSpan={1} colSpan={10} bg='purple.400' color="white" boxShadow={"lg"}>
           <Flex as="nav" alignItems="center">
-              <Heading as="h1">Scribe</Heading>
+              <Heading as="h1" ml="15px">Scribe</Heading>
               <Spacer/>
               <HStack spacing="20px">
                   <Button bg="white">Logout</Button>

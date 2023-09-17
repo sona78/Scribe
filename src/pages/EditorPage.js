@@ -144,13 +144,13 @@ function EditorPage() {
         <div className="home">
             <Grid
                 h='calc(100vh)'
-                templateRows='repeat(11, 1fr)'
+                templateRows='repeat(10, 1fr)'
                 templateColumns='repeat(11, 1fr)'
                 gap={3}
             >
-            <GridItem rowSpan={1} colSpan={11} bg='purple.400'>
+            <GridItem rowSpan={1} colSpan={11} bg='purple.400' color="white" boxShadow={"lg"}>
                 <Flex as="nav" alignItems="center">
-                    <Heading as="h1">Scribe</Heading>
+                    <Heading as="h1" ml="15px">Scribe</Heading>
                     <Spacer/>
                     <HStack spacing="20px">
                         <Link onClick={() => setEditIsOpen(true)}>{email}</Link>
