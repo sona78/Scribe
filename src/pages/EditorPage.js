@@ -13,6 +13,7 @@ import 'react-quill/dist/quill.snow.css';
 import '@aws-amplify/ui-react/styles.css';
 import {Link as ReactRouterLink} from 'react-router-dom';
 import Sidebar from "../components/Sidebar";
+import CustomButton from "../ui-components/CustomButton";
 
 
 
@@ -169,9 +170,9 @@ function EditorPage() {
             </GridItem>
             <GridItem rowSpan={1} colSpan={9} bg='papayawhip'>
                 <HStack spacing="20px">
-                    <Button>Save</Button>
-                    <Button>Export</Button>
-                    <Button>Share</Button>
+                    <CustomButton>Save</CustomButton>
+                    <CustomButton>Export</CustomButton>
+                    <CustomButton>Share</CustomButton>
                 </HStack>
             </GridItem>
             <GridItem rowSpan={9} colSpan={9}>                    
@@ -184,7 +185,7 @@ function EditorPage() {
                     ))}
                 </Select>
                     <Input placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
-                    <Button rightIcon={<AiFillSave/>} onClick={saveNote}>Save</Button></Box><br/>
+                    <CustomButton size = 'lg'p='20px' rightIcon={<AiFillSave/>} onClick={saveNote}>Save</CustomButton></Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     
                 </ReactQuill>
