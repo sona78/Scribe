@@ -167,7 +167,7 @@ export default function ClassGrid({user, setUser}) {
           ))}
         </Grid>
 
-        <Button mt={2} colorScheme="teal" onClick={onOpen}>
+        <Button mt={2} color = "white" bg="green.500" _hover={{bgColor: "yellow.400"}} onClick={onOpen}>
           Add Class
         </Button>
 

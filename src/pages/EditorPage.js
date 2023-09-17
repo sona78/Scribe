@@ -160,7 +160,7 @@ function EditorPage() {
                     <Spacer/>
                     <HStack spacing="20px">
                         <Link onClick={() => setEditIsOpen(true)}>{email}</Link>
-                        <Button bg="white">Logout</Button>
+                        <Button bg="white" mr="15px">Logout</Button>
                     </HStack>
                 </Flex>
             </GridItem>
@@ -186,10 +186,10 @@ function EditorPage() {
                     setActiveClass(e.target.value)
                     }} placeholder='Choose Class' >
                     {userClasses.map((cls) => (
-                         <option value={cls.class.id}>{cls.class.Name}</option>
+                         <option value={cls.class.Name}>{cls.class.Name}</option>
                     ))}
                 </Select>
-                    <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
+                <CustomInputField placeholder="Title" value={fileName} onChange={(e) =>{setFileName(e.target.value)}}/>
                 </Box><br/>
                 <ReactQuill theme="snow" value={text} onChange={setText}>
                     

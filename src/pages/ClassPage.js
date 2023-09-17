@@ -129,7 +129,7 @@ function ClassPage() {
               <Spacer/>
               <HStack spacing="20px">
                   <Text>{email}</Text>
-                  <Button bg="white">Logout</Button>
+                  <Button bg="white" mr="15px">Logout</Button>
               </HStack>
           </Flex>
       </GridItem>
