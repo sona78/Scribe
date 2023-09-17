@@ -22,7 +22,8 @@
         "scribestore": {}
       },
       "function": {
-        "scribe": {}
+        "scribe": {},
+        "scribenode": {}
       }
     }
   }
