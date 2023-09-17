@@ -47,7 +47,7 @@ export default function InsightPage() {
     ];
 
       const openai = new OpenAI({
-        apiKey: "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",
+        apiKey: "",
         dangerouslyAllowBrowser: true // defaults to process.env["OPENAI_API_KEY"]
       });
 
