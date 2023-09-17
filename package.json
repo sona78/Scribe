@@ -12,6 +12,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "aws-amplify": "^5.3.11",
+    "boto3": "^0.0.1",
     "aws-sdk": "^2.1459.0",
     "framer-motion": "^10.16.4",
     "react": "^18.2.0",

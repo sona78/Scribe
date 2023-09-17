@@ -24,10 +24,66 @@ import {
   import { useState } from 'react';
   import {Link as ReactRouterLink} from 'react-router-dom';
   import ClassGrid from '../components/ClassGrid';
+<<<<<<< HEAD
 
 
 function ClassPage() {
 const [classData, setClassData] = useState([]);
+=======
+  import { Storage} from 'aws-amplify';
+
+function ClassPage() {
+  const [classData, setClassData] = useState([]);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
+  const [newClassName, setNewClassName] = useState('');
+  
+
+  const toggleCollapse = (index) => {
+    if (openIndex === index) {
+      setOpenIndex(null);
+    } else {
+      setOpenIndex(index);
+    }
+  };
+
+  const handleAddClassClick = () => {
+    setShowAddClassForm(true);
+  };
+
+  const handleAddClassSubmit = async () => {
+    // Add the new class to classData
+    const newClass = {
+      Name: newClassName,
+    };
+    classCreate(newClass).then
+    ((res) => {
+      classData.push(res.data.createClass);
+      console.log(res);
+    });
+
+    const file = `public/${classData.Name}.json`;
+    const data = {
+        className: classData.Name,
+        students: classData.users,
+    }
+
+    await Storage.put(file, JSON.stringify(data))
+    
+
+    // Reset the form and hide it
+    setNewClassName('');
+    setShowAddClassForm(false);
+  };
+
+  const handleDeleteClass = (index) => {
+    const updatedClassData = [...classData];
+    updatedClassData.splice(index, 1);
+
+    // Update the state with the modified array
+    setClassData(updatedClassData);
+  }
+>>>>>>> b944792e16772861370da5b2a9d946173d06f3f0
 
   return (
     <div className="base">
