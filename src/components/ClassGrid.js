@@ -16,8 +16,7 @@ import {
   import { Link } from 'react-router-dom';
   import { useState } from 'react';
   
-export default function ClassGrid() {
-  const [classData, setClassData] = useState([]);
+export default function ClassGrid({classData}) {
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');

@@ -1,4 +1,3 @@
-// src/ClassPage.js
 
 import { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
@@ -25,47 +24,10 @@ import {
   import { useState } from 'react';
   import {Link as ReactRouterLink} from 'react-router-dom';
   import ClassGrid from '../components/ClassGrid';
+
+
 function ClassPage() {
-  const [classData, setClassData] = useState([]);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
-  const [newClassName, setNewClassName] = useState('');
-
-  const toggleCollapse = (index) => {
-    if (openIndex === index) {
-      setOpenIndex(null);
-    } else {
-      setOpenIndex(index);
-    }
-  };
-
-  const handleAddClassClick = () => {
-    setShowAddClassForm(true);
-  };
-
-  const handleAddClassSubmit = () => {
-    // Add the new class to classData
-    const newClass = {
-      Name: newClassName,
-    };
-    classCreate(newClass).then
-    ((res) => {
-      classData.push(res.data.createClass);
-      console.log(res);
-    });
-    
-    // Reset the form and hide it
-    setNewClassName('');
-    setShowAddClassForm(false);
-  };
-
-  const handleDeleteClass = (index) => {
-    const updatedClassData = [...classData];
-    updatedClassData.splice(index, 1);
-
-    // Update the state with the modified array
-    setClassData(updatedClassData);
-  }
+const [classData, setClassData] = useState([]);
 
   return (
     <div className="base">
@@ -103,7 +65,7 @@ function ClassPage() {
       </GridItem>
 
       <GridItem rowSpan={9} colSpan={9} >
-        <ClassGrid >
+        <ClassGrid classData={classData}>
 
         </ClassGrid>
       </GridItem>
