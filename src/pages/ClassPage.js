@@ -25,11 +25,14 @@ import {
   import { useState } from 'react';
   import {Link as ReactRouterLink} from 'react-router-dom';
   import ClassGrid from '../components/ClassGrid';
+  import { Storage} from 'aws-amplify';
+
 function ClassPage() {
   const [classData, setClassData] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAddClassForm, setShowAddClassForm] = useState(false); // State for showing/hiding the add class form
   const [newClassName, setNewClassName] = useState('');
+  
 
   const toggleCollapse = (index) => {
     if (openIndex === index) {
@@ -43,7 +46,7 @@ function ClassPage() {
     setShowAddClassForm(true);
   };
 
-  const handleAddClassSubmit = () => {
+  const handleAddClassSubmit = async () => {
     // Add the new class to classData
     const newClass = {
       Name: newClassName,
@@ -53,7 +56,16 @@ function ClassPage() {
       classData.push(res.data.createClass);
       console.log(res);
     });
+
+    const file = `public/${classData.Name}.json`;
+    const data = {
+        className: classData.Name,
+        students: classData.users,
+    }
+
+    await Storage.put(file, JSON.stringify(data))
     
+
     // Reset the form and hide it
     setNewClassName('');
     setShowAddClassForm(false);
