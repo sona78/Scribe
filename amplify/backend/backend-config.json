@@ -45,6 +45,13 @@
       "service": "Cognito"
     }
   },
+  "function": {
+    "scribe": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "storage": {
     "scribestore": {
       "dependsOn": [],

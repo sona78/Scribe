@@ -20,6 +20,9 @@
       },
       "storage": {
         "scribestore": {}
+      },
+      "function": {
+        "scribe": {}
       }
     }
   }
